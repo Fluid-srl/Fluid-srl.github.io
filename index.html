@@ -15,7 +15,7 @@
             }
 
             notify() {
-              fetch("http://localhost:3000/api/leads", {
+              fetch("https://licenses.fluid.srl/api/leads", {
                 method: "POST",
                 body: JSON.stringify({
                   email: this.emailTarget.value,
