@@ -15,19 +15,33 @@
             }
 
             notify() {
-              fetch("https://licenses.fluid.srl/api/leads", {
-                method: "POST",
-                body: JSON.stringify({
-                  email: this.emailTarget.value,
-                }),
-                headers: {
-                  "Content-type": "application/json; charset=UTF-8"
-                }
-              })
-                .then((response) => this.outputTarget.textContent = `Stay tuned! Thank you, ${this.emailTarget.value}!`)
-                .then((json) => console.log(json));
-              
-            }
+              if (this.emailTarget.value == "") {
+                this.outputTarget.textContent = "Please enter your email address";
+                return;
+              } else if (!this.emailTarget.value.includes("@")) {
+                this.outputTarget.textContent = "Please enter a valid email address";
+                return;
+              } else if (this.emailTarget.value.includes(" ")) {
+                this.outputTarget.textContent = "Please enter a valid email address";
+                return;
+              } else {
+                fetch("https://licenses.fluid.srl/api/leads", {
+                  method: "POST",
+                  body: JSON.stringify({
+                    email: this.emailTarget.value,
+                  }),
+                  headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                  }
+                })
+                  .then((response) => {
+                    this.outputTarget.textContent = `Stay tuned! Thank you, ${this.emailTarget.value}!`;
+                    this.emailTarget.value = "";
+                  })
+                  .then((json) => console.log(json));
+                
+              }
+          }
 
 
           })
